@@ -32,4 +32,17 @@ router.post("/", (req, res) => {
     });
 });
 
+router.get("/:id/actions", (req, res) => {
+  db("projects")
+    .where({ id: req.params.id })
+    .first()
+    .then(project => {
+      db("actions")
+        .where({ action_id: req.params.id })
+        .then(actions => {
+          res.status(200).json({ project, actions });
+        });
+    });
+});
+
 module.exports = router;
